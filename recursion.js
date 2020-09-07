@@ -1,17 +1,26 @@
 //1
-
-function container(obj,val) {
-    if(typeof(obj)=='number') {
-       if(obj==val) {
-           return true
-       }
-        else {
-            return false
+/*if you want to check or change a specific value in the object, 
+loop through the properties of the of the object using the for in loop, and 
+if it happens that one of the values is an object recall the helper fuction
+recursively*/
+function container(arg,val) {
+    let obj=arg;
+    function helperFunction(par,num) {
+        for(let key in par) {
+            if(par[key]===val) {
+                return true
+            }
+            if(typeof(par[key])=='object' && 
+               Array.isArray(par[key])==false) {
+                return helperFunction(par[key],val)
+            }
+            
+            return false 
         }
     }
-   let item=Object.keys(obj).shift();
-    return container(obj[item],val)
+    return helperFunction(obj,val)
 }
+
  //or
 var conta = (obj, val) => {
     let arr1 = Object.values(obj);
@@ -197,4 +206,40 @@ function search(arr,num) {
         }
         
     }
+}
+
+//convert numbers to string
+
+function stringifyNumbers(arg) {
+    let myObj=arg;
+    function move(par) {
+        for(let key in par) {
+            if(typeof(par[key])==='number') {
+                par[key]=par[key].toString()
+            }
+            if(typeof(par[key])=='object' && 
+               Array.isArray(par[key])==false) {
+                return move(par[key])
+            }
+            
+        }
+        return myObj
+    }
+    return move(myObj)
+}
+
+
+
+function F(n) {
+    if(n==0) {
+        return 1
+    }
+    return n-M(F(n-1))
+}
+
+function M(n) {
+    if(n==0) {
+        return 0
+    }
+    return n-F(M(n-1))
 }
